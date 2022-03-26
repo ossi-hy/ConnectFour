@@ -1,7 +1,6 @@
 import numpy as np
 import logging
 
-logger = logging.getLogger(__name__)
 
 class Board:
     EMPTY_SYMBOL = "."

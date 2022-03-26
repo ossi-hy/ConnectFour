@@ -2,6 +2,7 @@ from board import Board
 import numpy as np
 import argparse, logging, sys
 
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument(
@@ -18,7 +19,7 @@ def main() -> None:
         "--log",
         default="debug",
         choices=["none", "debug", "warning", "error"],
-        help="logging level"
+        help="logging level",
     )
     args = parser.parse_args()
 
@@ -26,7 +27,7 @@ def main() -> None:
         "none": None,
         "debug": logging.DEBUG,
         "warning": logging.WARNING,
-        "error": logging.ERROR
+        "error": logging.ERROR,
     }
     level = logging_levels.get(args.log.lower())
 
@@ -36,7 +37,6 @@ def main() -> None:
         pass
     else:
         logging.basicConfig(stream=sys.stderr, level=level, format=FORMAT)
-    
 
     board = Board(args.dim[0], args.dim[1])
     while True:
