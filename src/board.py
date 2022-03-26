@@ -1,4 +1,3 @@
-from tkinter import W
 import numpy as np
 
 
@@ -36,7 +35,23 @@ class Board:
             ret_string += "\n"
         return ret_string
 
-    def mask(self):
+    def array(self) -> list[list[int]]:
+        ret_array = []
+        for i in range(self.h - 1, -1, -1):
+            row = []
+            for j in range(self.w):
+                a = 1 & self.state[0] >> (j * (self.h + 1) + i) == 1
+                b = 1 & self.state[1] >> (j * (self.h + 1) + i) == 1
+                if a:
+                    row.append(1)
+                elif b:
+                    row.append(2)
+                else:
+                    row.append(0)
+            ret_array.append(row)
+        return ret_array
+
+    def mask(self) -> int:
         """Calculates all occupied positions by both players
 
         Returns:
@@ -44,7 +59,15 @@ class Board:
         """
         return self.state[0] | self.state[1]
 
-    def move(self, col: int):
+    def move(self, col: int) -> bool:
+        """Makes a move (drops a chip) on the board
+
+        Args:
+            col (int): column we want to drop our chip to
+
+        Returns:
+            bool: returns True if move was made
+        """
         height = (self.mask() >> (col * (self.h + 1)) & 111111).bit_length()
         if height >= self.h:
             return False
