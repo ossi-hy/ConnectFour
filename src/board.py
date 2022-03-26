@@ -3,9 +3,9 @@ import numpy as np
 
 
 class Board:
-    EMPTY_SYMBOL = '.'
-    PLAYER_A_SYMBOL = 'O'
-    PLAYER_B_SYMBOL = 'X'
+    EMPTY_SYMBOL = "."
+    PLAYER_A_SYMBOL = "O"
+    PLAYER_B_SYMBOL = "X"
 
     def __init__(self, width: int = 7, height: int = 6) -> None:
         self.w = width
@@ -17,6 +17,11 @@ class Board:
         self.player = 0
 
     def __str__(self) -> str:
+        """Converts Board to human readable string
+
+        Returns:
+            str: gameboard as multiline string
+        """
         ret_string = ""
         for i in range(self.h - 1, -1, -1):
             for j in range(self.w):
@@ -32,18 +37,19 @@ class Board:
         return ret_string
 
     def mask(self):
+        """Calculates all occupied positions by both players
+
+        Returns:
+            int: bitboard with one in all occupied positions
+        """
         return self.state[0] | self.state[1]
 
-    def legal_move(self, col):
-        return
-
-    def move(self, col):
-        height = (self.mask() >> (col * (self.w + 1)) & 111111).bit_length()
+    def move(self, col: int):
+        height = (self.mask() >> (col * (self.h + 1)) & 111111).bit_length()
         if height >= self.h:
             return False
 
         self.state[self.player] |= 1 << (col * (self.h + 1) + height)
-
         self.player = ~self.player
 
         return True
