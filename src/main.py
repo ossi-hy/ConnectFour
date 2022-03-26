@@ -31,7 +31,7 @@ def main() -> None:
     }
     level = logging_levels.get(args.log.lower())
 
-    FORMAT = "%[(module)s::%(funcName)s::%(lineno)d] %(message)s"
+    FORMAT = "%(module)s::%(funcName)s::%(lineno)d\t%(message)s"
 
     if level is None:
         pass
