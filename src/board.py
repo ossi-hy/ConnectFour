@@ -1,5 +1,7 @@
 import numpy as np
+import logging
 
+logger = logging.getLogger(__name__)
 
 class Board:
     EMPTY_SYMBOL = "."
@@ -68,11 +70,13 @@ class Board:
         Returns:
             bool: returns True if move was made
         """
-        height = (self.mask() >> (col * (self.h + 1)) & 111111).bit_length()
+        logging.debug(f"Mask: {self.mask()}")
+        height = (self.mask() >> (col * (self.h + 1)) & 0b111111).bit_length()
+        logging.debug(f"Height: {height}")
         if height >= self.h:
             return False
 
         self.state[self.player] |= 1 << (col * (self.h + 1) + height)
-        self.player = ~self.player
+        self.player = 0 if self.player == 1 else 1
 
         return True
