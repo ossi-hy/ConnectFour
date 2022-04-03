@@ -38,6 +38,7 @@ class TestBoard(unittest.TestCase):
         for _ in range(3):
             self.board.move(0)
             self.board.move(1)
+        self.assertFalse(self.board.over)
         self.board.move(0)
         self.assertTrue(self.board.over)
 
@@ -45,6 +46,23 @@ class TestBoard(unittest.TestCase):
         for i in range(3):
             self.board.move(i)
             self.board.move(i)
+        self.assertFalse(self.board.over)
         self.board.move(3)
+        self.assertTrue(self.board.over)
+
+    def test_game_ends_diagonal1_line(self):
+        moves = [0,1,1,2,3,2,2,3,4,3]
+        for move in moves:
+            self.board.move(move)
+        self.assertFalse(self.board.over)
+        self.board.move(3)
+        self.assertTrue(self.board.over)
+
+    def test_game_ends_diagonal2_line(self):
+        moves = [0,1,1,2,3,2,2,3,4,3]
+        for move in moves:
+            self.board.move(6-move)
+        self.assertFalse(self.board.over)
+        self.board.move(6-3)
         self.assertTrue(self.board.over)
 
