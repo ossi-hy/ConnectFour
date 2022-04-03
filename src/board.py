@@ -16,6 +16,8 @@ class Board:
         # 0 = Player A, 1 = Player B
         self.player = 0
 
+        self.over = False
+
     def __str__(self) -> str:
         """Converts Board to human readable string
 
@@ -75,7 +77,38 @@ class Board:
         if height >= self.h:
             return False
 
-        self.state[self.player] |= 1 << (col * (self.h + 1) + height)
+        pos = 1 << (col * (self.h + 1) + height)
+        # Add move on the board of the player
+        self.state[self.player] |= pos
+
+        self.over = self.is_over()
+        logging.debug(f"Over: {self.over}")
+        
+        # Change player
         self.player = 0 if self.player == 1 else 1
 
         return True
+
+    def is_over(self):
+        # Horizontal check
+        test = self.state[self.player] & (self.state[self.player] >> (self.h+1))
+        if test & (test >> 2*(self.h+1)):
+            return True
+        
+        # Vertical check
+        test = self.state[self.player] & (self.state[self.player] >> 1)
+        if test & (test >> 2):
+            return True
+        
+        # Diagonal check
+        test = self.state[self.player] & (self.state[self.player] >> self.h)
+        if test & (test >> 2*self.h):
+            return True
+        
+        # Diagonal check
+        test = self.state[self.player] & (self.state[self.player] >> (self.h+2))
+        if test & (test >> 2*(self.h+2)):
+            return True    
+
+        return False
+

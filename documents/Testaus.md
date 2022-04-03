@@ -5,7 +5,7 @@
 
 ## Mitä on testattu?
 
-Testattu pelilogiikkaa ja pelilaudan tulostamista.
+Testattu pelilogiikkaa ja pelilaudan tulostamista. Testattu pelin päättymistä neljän suorasta.
 
 ## Testien toistaminen
 

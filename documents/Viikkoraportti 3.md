@@ -1,10 +1,10 @@
 # Viikkoraportti 2
 
-Tuntimäärä: 1h
+Tuntimäärä: 2h
 
 ## Tehty
 
-Alustava testausdokumentti.
+Alustava testausdokumentti. Lisätty pelin lopetuksen eli neljän suoran tunnistamien.
 
 ## Opittu
 

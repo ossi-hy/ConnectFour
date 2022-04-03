@@ -34,3 +34,17 @@ class TestBoard(unittest.TestCase):
             str(self.board), ".......\n.......\n.......\n.......\nX......\nO......\n"
         )
 
+    def test_game_ends_vertical_line(self):
+        for _ in range(3):
+            self.board.move(0)
+            self.board.move(1)
+        self.board.move(0)
+        self.assertTrue(self.board.over)
+
+    def test_game_ends_horizontal_line(self):
+        for i in range(3):
+            self.board.move(i)
+            self.board.move(i)
+        self.board.move(3)
+        self.assertTrue(self.board.over)
+
