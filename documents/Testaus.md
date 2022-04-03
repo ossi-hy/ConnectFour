@@ -1,7 +1,6 @@
 # Testausdokumentti
 
 [Testikattavuus](https://ossi-hy.github.io/ConnectFour/)
-<iframe src=https://ossi-hy.github.io/ConnectFour/ width=700 height=200></iframe>
 
 ## Mitä on testattu?
 
@@ -10,6 +9,10 @@ Testattu pelilogiikkaa ja pelilaudan tulostamista. Testattu pelin päättymistä
 ## Testien toistaminen
 
 Testit voidaan toistaa komennolla
-`poetry run coverage run --branch -m pytest src`
+```$ poetry run coverage run --branch -m pytest src```
+
 Tämän jälkeen testien kattavuuden voi katsoa komennolla
-`poetry run coverage report -m`
+```$ poetry run coverage report -m```
+
+Kattavuudesta voi muodostaa HTML-raportin komennolla
+```$ poetry run coverage html -d docs```
