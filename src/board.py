@@ -86,7 +86,9 @@ class Board:
 
         self.over = self.is_over()
         logging.debug(f"Over: {self.over}")
-        
+
+        self.movecount += 1
+
         # Change player
         self.player = 0 if self.player == 1 else 1
 
@@ -98,6 +100,7 @@ class Board:
 
         self.state[opponent] ^= pos
 
+        self.movecount -= 1
 
     def is_over(self) -> bool:
         """Checks if there is four in a row by current player
@@ -107,24 +110,31 @@ class Board:
         """
 
         # Horizontal check
-        test = self.state[self.player] & (self.state[self.player] >> (self.h+1))
-        if test & (test >> 2*(self.h+1)):
+        test = self.state[self.player] & (self.state[self.player] >> (self.h + 1))
+        if test & (test >> 2 * (self.h + 1)):
             return True
-        
+
         # Vertical check
         test = self.state[self.player] & (self.state[self.player] >> 1)
         if test & (test >> 2):
             return True
-        
+
         # Diagonal check
         test = self.state[self.player] & (self.state[self.player] >> self.h)
-        if test & (test >> 2*self.h):
+        if test & (test >> 2 * self.h):
             return True
-        
+
         # Diagonal check
-        test = self.state[self.player] & (self.state[self.player] >> (self.h+2))
-        if test & (test >> 2*(self.h+2)):
-            return True    
+        test = self.state[self.player] & (self.state[self.player] >> (self.h + 2))
+        if test & (test >> 2 * (self.h + 2)):
+            return True
 
         return False
 
+    def score(self) -> int:
+        """Returns the score for the current player
+
+        Returns:
+            int: _description_
+        """
+        return (self.w * self.h + 1 - self.movecount) // 2
