@@ -49,8 +49,10 @@ def main() -> None:
         if col < 0 or col >= board.w:
             print("Invalid range")
             continue
-
-        board.move(col)
+        if board.can_move(col):
+            board.move(col)
+        else:
+            print("Can't move there")
         print(board)
 
 

@@ -16,6 +16,7 @@ class Board:
         # 0 = Player A, 1 = Player B
         self.player = 0
 
+        self.movecount = 0
         self.over = False
 
     def __str__(self) -> str:
@@ -62,7 +63,11 @@ class Board:
         """
         return self.state[0] | self.state[1]
 
-    def move(self, col: int) -> bool:
+    def can_move(self, col: int) -> bool:
+        height = (self.mask() >> (col * (self.h + 1)) & 0b111111).bit_length()
+        return height < self.h
+
+    def move(self, col: int) -> None:
         """Makes a move (drops a chip) on the board
 
         Args:
@@ -74,8 +79,6 @@ class Board:
         logging.debug(f"Mask: {self.mask()}")
         height = (self.mask() >> (col * (self.h + 1)) & 0b111111).bit_length()
         logging.debug(f"Height: {height}")
-        if height >= self.h:
-            return False
 
         pos = 1 << (col * (self.h + 1) + height)
         # Add move on the board of the player
@@ -87,9 +90,22 @@ class Board:
         # Change player
         self.player = 0 if self.player == 1 else 1
 
-        return True
+    def unmove(self, col: int) -> None:
+        opponent = 0 if self.player == 1 else 1
 
-    def is_over(self):
+        height = (self.mask() >> (col * (self.h + 1)) & 0b111111).bit_length() - 1
+        pos = 1 << (col * (self.h + 1) + height)
+
+        self.state[opponent] ^= pos
+
+
+    def is_over(self) -> bool:
+        """Checks if there is four in a row by current player
+
+        Returns:
+            bool: returns True if there is four in a row
+        """
+
         # Horizontal check
         test = self.state[self.player] & (self.state[self.player] >> (self.h+1))
         if test & (test >> 2*(self.h+1)):
