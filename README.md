@@ -1,5 +1,15 @@
 # ConnectFour
 
+## Asennus
+Asenna riippuvuudet
+```bash
+$ poetry install
+```
+Aja ohjelma
+```bash
+$ poetry run invoke start
+```
+
 [Testikattavuus](https://ossi-hy.github.io/ConnectFour/)
 
 [Määrittelydokumentti](https://github.com/ossi-hy/ConnectFour/blob/main/documents/Maarittely.md)

@@ -76,16 +76,17 @@ class Board:
         Returns:
             bool: returns True if move was made
         """
-        logging.debug(f"Mask: {self.mask()}")
+        #logging.debug(f"Mask: {self.mask()}")
         height = (self.mask() >> (col * (self.h + 1)) & 0b111111).bit_length()
-        logging.debug(f"Height: {height}")
+
+        #logging.debug(f"Height: {height}")
 
         pos = 1 << (col * (self.h + 1) + height)
         # Add move on the board of the player
         self.state[self.player] |= pos
 
         self.over = self.is_over()
-        logging.debug(f"Over: {self.over}")
+        #logging.debug(f"Over: {self.over}")
 
         self.movecount += 1
 
@@ -93,12 +94,13 @@ class Board:
         self.player = 0 if self.player == 1 else 1
 
     def unmove(self, col: int) -> None:
-        opponent = 0 if self.player == 1 else 1
+        self.player = 0 if self.player == 1 else 1
 
         height = (self.mask() >> (col * (self.h + 1)) & 0b111111).bit_length() - 1
         pos = 1 << (col * (self.h + 1) + height)
 
-        self.state[opponent] ^= pos
+
+        self.state[self.player] ^= pos
 
         self.movecount -= 1
 

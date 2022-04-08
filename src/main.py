@@ -1,4 +1,5 @@
 from board import Board
+from solver import Solver
 import numpy as np
 import argparse, logging, sys
 
@@ -39,6 +40,8 @@ def main() -> None:
         logging.basicConfig(stream=sys.stderr, level=level, format=FORMAT)
 
     board = Board(args.dim[0], args.dim[1])
+
+    solver = Solver()
     while True:
         print(f"Player {board.player} turn")
         try:
@@ -51,6 +54,7 @@ def main() -> None:
             continue
         if board.can_move(col):
             board.move(col)
+            print(solver.negamax(board, -1e10, 1e10, 0))
         else:
             print("Can't move there")
         print(board)

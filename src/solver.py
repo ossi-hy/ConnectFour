@@ -6,7 +6,8 @@ class Solver:
     def __init__(self) -> None:
         pass
 
-    def negamax(self, board: Board, alpha: int, beta: int):
+    def negamax(self, board: Board, alpha: int, beta: int, depth: int) -> int:
+        print(depth)
         assert(alpha < beta)
 
         ## Check if the game is over
@@ -22,7 +23,7 @@ class Solver:
             if not board.can_move(x):
                 continue
             board.move(x)
-            value = max(value, -self.negamax(board, -beta, -alpha))
+            value = max(value, -self.negamax(board, -beta, -alpha, depth+1))
             board.unmove(x)
             alpha = max(alpha, value)
             if alpha >= beta:

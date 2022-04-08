@@ -12,13 +12,14 @@ class TestBoard(unittest.TestCase):
         )
 
     def test_empty_board_to_array(self):
-        self.assertEqual(self.board.array(), [[0]*self.board.w]*self.board.h)
+        self.assertEqual(self.board.array(), [[0] * self.board.w] * self.board.h)
 
     def test_one_player_move(self):
         self.board.move(0)
         self.assertEqual(
             str(self.board), ".......\n.......\n.......\n.......\n.......\nO......\n"
         )
+        self.assertEqual(self.board.movecount, 1)
 
     def test_two_players_move_different_positions(self):
         self.board.move(0)
@@ -26,7 +27,8 @@ class TestBoard(unittest.TestCase):
         self.assertEqual(
             str(self.board), ".......\n.......\n.......\n.......\n.......\nO.....X\n"
         )
-    
+        self.assertEqual(self.board.movecount, 2)
+
     def test_two_players_move_same_position(self):
         self.board.move(0)
         self.board.move(0)
@@ -51,7 +53,7 @@ class TestBoard(unittest.TestCase):
         self.assertTrue(self.board.over)
 
     def test_game_ends_diagonal1_line(self):
-        moves = [0,1,1,2,3,2,2,3,4,3]
+        moves = [0, 1, 1, 2, 3, 2, 2, 3, 4, 3]
         for move in moves:
             self.board.move(move)
         self.assertFalse(self.board.over)
@@ -59,10 +61,31 @@ class TestBoard(unittest.TestCase):
         self.assertTrue(self.board.over)
 
     def test_game_ends_diagonal2_line(self):
-        moves = [0,1,1,2,3,2,2,3,4,3]
+        moves = [0, 1, 1, 2, 3, 2, 2, 3, 4, 3]
         for move in moves:
-            self.board.move(6-move)
+            self.board.move(6 - move)
         self.assertFalse(self.board.over)
-        self.board.move(6-3)
+        self.board.move(6 - 3)
         self.assertTrue(self.board.over)
 
+    def test_unmove_one(self):
+        for x in range(self.board.w):
+            self.board.move(x)
+            self.board.unmove(x)
+            self.assertEqual(
+                str(self.board),
+                (Board.EMPTY_SYMBOL * self.board.w + "\n") * self.board.h,
+            )
+
+    def test_unmove_two(self):
+        for x1 in range(self.board.w):
+            for x2 in range(self.board.w):
+                print(x1, x2)
+                self.board.move(x1)
+                self.board.move(x2)
+                self.board.unmove(x2)
+                self.board.unmove(x1)
+                self.assertEqual(
+                    str(self.board),
+                    (Board.EMPTY_SYMBOL * self.board.w + "\n") * self.board.h,
+                )
