@@ -41,6 +41,19 @@ class Solver:
         return scores, best_move, highest_score
 
     def negamax(self, board: Board, alpha: int, beta: int, depth: int) -> int:
+        """Variation of minimax algorithm for symmetric games. 
+        Finds best move by expanding all possible moves recursively until draw or other player wins.
+        Alpha-beta pruning is used to reduce the search space by cutting branches that won't affect final choice.
+
+        Args:
+            board (Board): Board to be evaluated
+            alpha (int): Alpha
+            beta (int): Beta
+            depth (int): Depth of the search (One turn = 2 moves = 2 depth)
+
+        Returns:
+            int: Evaluation of the given position
+        """
         assert alpha < beta
         if depth == 0:
             return 0

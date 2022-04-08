@@ -8,6 +8,12 @@ class Board:
     PLAYER_B_SYMBOL = "X"
 
     def __init__(self, width: int = 7, height: int = 6) -> None:
+        """Constructor for Board
+
+        Args:
+            width (int, optional): Width of the playable board. Defaults to 7.
+            height (int, optional): Height of the playable board. Defaults to 6.
+        """
         self.w = width
         self.h = height
 
@@ -63,9 +69,22 @@ class Board:
         return self.state[0] | self.state[1]
 
     def get_opponent(self) -> int:
+        """Get the player who played the last move
+
+        Returns:
+            int: player number, 1 or 0
+        """
         return 0 if self.player == 1 else 1
 
     def can_move(self, col: int) -> bool:
+        """Checks if you can make a move to the given colum (if there's space left)
+
+        Args:
+            col (int): Column we would like to drop chip to
+
+        Returns:
+            bool: True if the move is possible
+        """
         height = (self.mask() >> (col * (self.h + 1)) & 0b111111).bit_length()
         return height < self.h
 
@@ -95,6 +114,11 @@ class Board:
         self.player = 0 if self.player == 1 else 1
 
     def unmove(self, col: int) -> None:
+        """Backtrack the move made to the given column
+
+        Args:
+            col (int): column to remove the last played chip from
+        """
         self.player = 0 if self.player == 1 else 1
 
         height = (self.mask() >> (col * (self.h + 1)) & 0b111111).bit_length() - 1
