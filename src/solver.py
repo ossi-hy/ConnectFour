@@ -3,16 +3,23 @@ import numpy as np
 import logging
 
 class Solver:
+    LARGE_NEGATIVE = -(1<<31)
+    LARGE_POSITIVE = 1<<31
+
     def __init__(self) -> None:
         pass
 
     def eval_moves(self, board: Board, depth: int) -> int:
         scores = []
-        highest_score = -1e10
+        highest_score = Solver.LARGE_NEGATIVE
         best_move = 0
         for x in range(board.w):
+            if not board.can_move(x):
+                scores.append(None)
+                continue
             board.move(x)
-            score = self.negamax(board, -1e10, 1e10, depth)
+            # Calculate opponent's score after player's move
+            score = -self.negamax(board, Solver.LARGE_NEGATIVE, Solver.LARGE_POSITIVE, depth)
             board.unmove(x)
             if score > highest_score:
                 best_move = x

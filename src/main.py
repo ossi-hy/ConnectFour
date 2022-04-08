@@ -58,6 +58,9 @@ def main() -> None:
         else:
             print("Can't move there")
         print(board)
+        if board.is_over():
+            print(f"Game over! Player {board.get_opponent()} won.")
+            break
 
 
 if __name__ == "__main__":

@@ -1,6 +1,12 @@
 import unittest
 from board import Board
 
+def column_equals(board: Board, col: int, column_str: str):
+    board_str = str(board)
+    for y in range(board.h):
+        if board_str[y * (board.w+1) + col] != column_str[y]:
+            return False
+    return True
 
 class TestBoard(unittest.TestCase):
     def setUp(self):
@@ -48,33 +54,33 @@ class TestBoard(unittest.TestCase):
         for _ in range(3):
             self.board.move(0)
             self.board.move(1)
-        self.assertFalse(self.board.over)
+        self.assertFalse(self.board.is_over())
         self.board.move(0)
-        self.assertTrue(self.board.over)
+        self.assertTrue(self.board.is_over())
 
     def test_game_ends_horizontal_line(self):
         for i in range(3):
             self.board.move(i)
             self.board.move(i)
-        self.assertFalse(self.board.over)
+        self.assertFalse(self.board.is_over())
         self.board.move(3)
-        self.assertTrue(self.board.over)
+        self.assertTrue(self.board.is_over())
 
     def test_game_ends_diagonal1_line(self):
         moves = [0, 1, 1, 2, 3, 2, 2, 3, 4, 3]
         for move in moves:
             self.board.move(move)
-        self.assertFalse(self.board.over)
+        self.assertFalse(self.board.is_over())
         self.board.move(3)
-        self.assertTrue(self.board.over)
+        self.assertTrue(self.board.is_over())
 
     def test_game_ends_diagonal2_line(self):
         moves = [0, 1, 1, 2, 3, 2, 2, 3, 4, 3]
         for move in moves:
             self.board.move(6 - move)
-        self.assertFalse(self.board.over)
+        self.assertFalse(self.board.is_over())
         self.board.move(6 - 3)
-        self.assertTrue(self.board.over)
+        self.assertTrue(self.board.is_over())
 
     def test_unmove_one(self):
         for x in range(self.board.w):

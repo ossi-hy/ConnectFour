@@ -17,7 +17,6 @@ class Board:
         self.player = 0
 
         self.movecount = 0
-        self.over = False
 
     def __str__(self) -> str:
         """Converts Board to human readable string
@@ -63,6 +62,9 @@ class Board:
         """
         return self.state[0] | self.state[1]
 
+    def get_opponent(self) -> int:
+        return 0 if self.player == 1 else 1
+
     def can_move(self, col: int) -> bool:
         height = (self.mask() >> (col * (self.h + 1)) & 0b111111).bit_length()
         return height < self.h
@@ -76,17 +78,16 @@ class Board:
         Returns:
             bool: returns True if move was made
         """
-        #logging.debug(f"Mask: {self.mask()}")
+        # logging.debug(f"Mask: {self.mask()}")
         height = (self.mask() >> (col * (self.h + 1)) & 0b111111).bit_length()
 
-        #logging.debug(f"Height: {height}")
+        # logging.debug(f"Height: {height}")
 
         pos = 1 << (col * (self.h + 1) + height)
         # Add move on the board of the player
         self.state[self.player] |= pos
 
-        self.over = self.is_over()
-        #logging.debug(f"Over: {self.over}")
+        # logging.debug(f"Over: {self.over}")
 
         self.movecount += 1
 
@@ -99,44 +100,46 @@ class Board:
         height = (self.mask() >> (col * (self.h + 1)) & 0b111111).bit_length() - 1
         pos = 1 << (col * (self.h + 1) + height)
 
-
         self.state[self.player] ^= pos
 
         self.movecount -= 1
 
     def is_over(self) -> bool:
-        """Checks if there is four in a row by current player
+        """Checks if there is four in a row by previous player
 
         Returns:
             bool: returns True if there is four in a row
         """
 
+        opp = self.get_opponent()
+
         # Horizontal check
-        test = self.state[self.player] & (self.state[self.player] >> (self.h + 1))
+        test = self.state[opp] & (self.state[opp] >> (self.h + 1))
         if test & (test >> 2 * (self.h + 1)):
             return True
 
         # Vertical check
-        test = self.state[self.player] & (self.state[self.player] >> 1)
+        test = self.state[opp] & (self.state[opp] >> 1)
         if test & (test >> 2):
             return True
 
         # Diagonal check
-        test = self.state[self.player] & (self.state[self.player] >> self.h)
+        test = self.state[opp] & (self.state[opp] >> self.h)
         if test & (test >> 2 * self.h):
             return True
 
         # Diagonal check
-        test = self.state[self.player] & (self.state[self.player] >> (self.h + 2))
+        test = self.state[opp] & (self.state[opp] >> (self.h + 2))
         if test & (test >> 2 * (self.h + 2)):
             return True
 
         return False
 
     def score(self) -> int:
-        """Returns the score for the current player
+        """Returns the score for the current player. 
+        This should be only used after the game is over.
 
         Returns:
-            int: _description_
+            int: score of the current player
         """
-        return (self.w * self.h + 1 - self.movecount) // 2
+        return -(self.w * self.h + 1 - self.movecount) // 2
