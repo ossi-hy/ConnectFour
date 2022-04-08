@@ -1,4 +1,5 @@
 import unittest
+import pytest
 from board import Board
 from solver import Solver
 
@@ -32,3 +33,22 @@ class TestSolver(unittest.TestCase):
             self.board.move(0)
         scores, _, _ = self.solver.eval_moves(self.board, depth=1)
         self.assertIsNone(scores[0])
+
+    @pytest.mark.slow
+    def test_positions_from_file(self):
+        filename = "src/tests/test_depth_13.txt"
+        lines = []
+        with open(filename, "r") as f:
+            lines = f.readlines()
+        for line in lines:
+            # Create empty board for each new sequence
+            board = Board()
+            # Each line will consist of sequence of moves and expected score for the first player 
+            moves, expected_score = tuple(line.strip().split(' '))
+            expected_score = int(expected_score)
+            for i in range(len(moves)):
+                board.move(int(moves[i]) - 1)
+            _, _, score = self.solver.eval_moves(board, depth=13)
+            print(board)
+            print(f"Line: {line}\tScore: {score}")
+            self.assertEqual(score, expected_score)

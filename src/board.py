@@ -97,16 +97,12 @@ class Board:
         Returns:
             bool: returns True if move was made
         """
-        # logging.debug(f"Mask: {self.mask()}")
         height = (self.mask() >> (col * (self.h + 1)) & 0b111111).bit_length()
 
-        # logging.debug(f"Height: {height}")
 
         pos = 1 << (col * (self.h + 1) + height)
         # Add move on the board of the player
         self.state[self.player] |= pos
-
-        # logging.debug(f"Over: {self.over}")
 
         self.movecount += 1
 

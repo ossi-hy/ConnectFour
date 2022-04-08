@@ -14,6 +14,15 @@ def start(ctx):
 @task
 def test(ctx):
     if OS == "Linux":
+        ctx.run("coverage run --branch -m pytest src -m \"not slow\"", pty=True)
+    elif OS == "Windows":
+        ctx.run("coverage run --branch -m pytest src -m \"not slow\"")
+    else:
+        print("Unsupported OS")
+
+@task
+def slow_test(ctx):
+    if OS == "Linux":
         ctx.run("coverage run --branch -m pytest src", pty=True)
     elif OS == "Windows":
         ctx.run("coverage run --branch -m pytest src")
