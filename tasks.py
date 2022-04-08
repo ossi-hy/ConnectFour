@@ -8,10 +8,8 @@ OS = platform.system()
 def start(ctx):
     if OS == "Linux":
         ctx.run("python3 src/main.py", pty=True)
-    elif OS == "Windows":
-        ctx.run("python src/main.py")
     else:
-        raise Exception("Unsupported OS")
+        print("Unsupported OS, try instead:\n\tpoetry run python src/main.py")
 
 @task
 def test(ctx):
@@ -20,7 +18,7 @@ def test(ctx):
     elif OS == "Windows":
         ctx.run("coverage run --branch -m pytest src")
     else:
-        raise Exception("Unsupported OS")
+        print("Unsupported OS")
 
 @task(test)
 def coverage_report(ctx):
@@ -29,5 +27,5 @@ def coverage_report(ctx):
     elif OS == "Windows":
         ctx.run("coverage html -d docs")
     else:
-        raise Exception("Unsupported OS")
+       print("Unsupported OS")
     
