@@ -1,5 +1,5 @@
 from os import system
-from invoke import task
+from invoke import task # type: ignore
 import platform
 
 OS = platform.system()

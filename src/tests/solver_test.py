@@ -1,5 +1,5 @@
 import unittest
-import pytest
+import pytest  # type: ignore
 from board import Board
 from solver import Solver
 
