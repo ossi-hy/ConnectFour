@@ -16,6 +16,10 @@ $ poetry run invoke start
 
 [Testausdokumentti](https://github.com/ossi-hy/ConnectFour/blob/main/documents/Testaus.md)
 
+[Toteutusdokumentti](https://github.com/ossi-hy/ConnectFour/blob/main/documents/Toteutus.md)
+
 [Viikkoraportti 1](https://github.com/ossi-hy/ConnectFour/blob/main/documents/Viikkoraportti%201.md)
 
 [Viikkoraportti 2](https://github.com/ossi-hy/ConnectFour/blob/main/documents/Viikkoraportti%202.md)
+
+[Viikkoraportti 3](https://github.com/ossi-hy/ConnectFour/blob/main/documents/Viikkoraportti%203.md)
