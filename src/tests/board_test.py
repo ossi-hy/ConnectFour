@@ -35,6 +35,14 @@ class TestBoard(unittest.TestCase):
         self.assertEqual(
             str(self.board), ".......\n.......\n.......\n.......\nX......\nO......\n"
         )
+    
+    def test_two_players_fill_first_column(self):
+        for _ in range(self.board.h+1):
+            if self.board.can_move(0):
+                self.board.move(0)
+        self.assertEqual(
+            str(self.board), "X......\nO......\nX......\nO......\nX......\nO......\n"
+        )
 
     def test_game_ends_vertical_line(self):
         for _ in range(3):

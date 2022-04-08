@@ -54,7 +54,7 @@ def main() -> None:
             continue
         if board.can_move(col):
             board.move(col)
-            print(solver.negamax(board, -1e10, 1e10, 0))
+            print("Expected score: ", solver.eval_moves(board, 9))
         else:
             print("Can't move there")
         print(board)
