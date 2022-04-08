@@ -23,3 +23,5 @@ $ poetry run invoke start
 [Viikkoraportti 2](https://github.com/ossi-hy/ConnectFour/blob/main/documents/Viikkoraportti%202.md)
 
 [Viikkoraportti 3](https://github.com/ossi-hy/ConnectFour/blob/main/documents/Viikkoraportti%203.md)
+
+[Viikkoraportti 4](https://github.com/ossi-hy/ConnectFour/blob/main/documents/Viikkoraportti%204.md)
