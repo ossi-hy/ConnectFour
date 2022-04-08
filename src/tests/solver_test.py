@@ -19,9 +19,16 @@ class TestSolver(unittest.TestCase):
         for move in moves:
             self.board.move(move)
         scores, _, _ = self.solver.eval_moves(self.board, depth=4)
-        self.assertEqual(scores[5], 0)
-        self.assertEqual(scores[2], 0)
+        best_of_bads = Solver.LARGE_NEGATIVE
         for x in range(self.board.w):
             if x == 2 or x == 5:
                 continue
-            self.assertLess(scores[x], 0)
+            best_of_bads = max(best_of_bads, scores[x])
+        self.assertGreater(scores[5], best_of_bads)
+        self.assertGreater(scores[2], best_of_bads)
+
+    def test_first_column_full(self):
+        for _ in range(self.board.h):
+            self.board.move(0)
+        scores, _, _ = self.solver.eval_moves(self.board, depth=1)
+        self.assertIsNone(scores[0])
