@@ -9,10 +9,10 @@ Testattu pelilogiikkaa ja pelilaudan tulostamista. Testattu pelin päättymistä
 ## Testien toistaminen
 
 Testit voidaan toistaa komennolla
-```$ poetry run coverage run --branch -m pytest src```
+```$ poetry run invoke test```
 
 Tämän jälkeen testien kattavuuden voi katsoa komennolla
-```$ poetry run coverage report -m```
+```$ poetry run invoke coverage```
 
 Kattavuudesta voi muodostaa HTML-raportin komennolla
-```$ poetry run coverage html -d docs```
+```$ poetry run invoke coverage-html```

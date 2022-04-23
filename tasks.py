@@ -37,4 +37,13 @@ def coverage_report(ctx):
         ctx.run("coverage html -d docs")
     else:
        print("Unsupported OS")
+
+@task(test)
+def coverage(ctx):
+    if OS == "Linux":
+        ctx.run("coverage report -m", pty=True)
+    elif OS == "Windows":
+        ctx.run("coverage report -m")
+    else:
+       print("Unsupported OS")
     
