@@ -41,7 +41,7 @@ def main() -> None:
 
     board = Board(args.dim[0], args.dim[1])
 
-    solver = Solver()
+    solver = Solver(board.w)
     while True:
         print(f"Player {board.player} turn")
         try:

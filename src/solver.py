@@ -1,14 +1,15 @@
 from board import Board
 import numpy as np
-import logging
 
 
 class Solver:
     LARGE_NEGATIVE = -(1 << 31)
     LARGE_POSITIVE = 1 << 31
 
-    def __init__(self) -> None:
-        pass
+    def __init__(self, width: int) -> None:
+        self.order = []
+        for i in range(width):
+            self.order.append(width // 2 + (1 - 2 * (i % 2)) * (i + 1) // 2)
 
     def eval_moves(self, board: Board, depth: int) -> tuple[list[int], int, int]:
         """Evaluates all the possible moves from given position for current player.
@@ -41,7 +42,7 @@ class Solver:
         return scores, best_move, highest_score
 
     def negamax(self, board: Board, alpha: int, beta: int, depth: int) -> int:
-        """Variation of minimax algorithm for symmetric games. 
+        """Variation of minimax algorithm for symmetric games.
         Finds best move by expanding all possible moves recursively until draw or other player wins.
         Alpha-beta pruning is used to reduce the search space by cutting branches that won't affect final choice.
 
@@ -67,6 +68,7 @@ class Solver:
 
         value = -board.w * board.h
         for x in range(board.w):
+            x = self.order[x]
             if not board.can_move(x):
                 continue
             board.move(x)

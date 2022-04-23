@@ -6,7 +6,7 @@ from solver import Solver
 class TestSolver(unittest.TestCase):
     def setUp(self) -> None:
         self.board = Board()
-        self.solver = Solver()
+        self.solver = Solver(self.board.w)
     
     def test_find_winning_move_one_ahead(self):
         moves = [0,0,1,1,2,2]
