@@ -8,6 +8,9 @@ Testattu pelilogiikkaa ja pelilaudan tulostamista. Testattu pelin päättymistä
 
 ## Testien toistaminen
 
+Asenna kaikki riippuvuudet
+```$ poetry install```
+
 Testit voidaan toistaa komennolla
 ```$ poetry run invoke test```
 

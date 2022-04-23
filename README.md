@@ -1,9 +1,9 @@
 # ConnectFour
 
 ## Asennus
-Asenna riippuvuudet
+Asenna välttämättömät riippuvuudet
 ```bash
-$ poetry install
+$ poetry install --no-dev
 ```
 Aja ohjelma
 ```bash
