@@ -4,7 +4,7 @@
 
 ## Mitä on testattu?
 
-Testattu pelilogiikkaa ja pelilaudan tulostamista. Testattu pelin päättymistä neljän suorasta.
+Testattu pelilogiikkaa ja pelilaudan tulostamista. Testattu pelin päättymistä neljän suorasta. Testattu algoritmin toimintaa erittäin kattavasti esilasketuilla tauluilla.
 
 ## Testien toistaminen
 

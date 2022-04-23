@@ -1,5 +1,5 @@
 import numpy as np
-import logging
+from __future__ import annotations
 
 
 class Board:
