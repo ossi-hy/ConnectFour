@@ -49,4 +49,6 @@ class TestSolver(unittest.TestCase):
             for i in range(len(moves)):
                 board.move(int(moves[i]) - 1)
             _, _, score = self.solver.eval_moves(board, depth=13)
+            print(score, expected_score)
+            print(board)
             self.assertEqual(score, expected_score)

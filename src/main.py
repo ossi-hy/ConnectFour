@@ -54,7 +54,7 @@ def main() -> None:
             continue
         if board.can_move(col):
             board.move(col)
-            print("Expected score: ", solver.eval_moves(board, depth=9))
+            print("Expected score: ", solver.eval_moves(board, depth=4))
         else:
             print("Can't move there")
         print(board)

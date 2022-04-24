@@ -68,6 +68,9 @@ class Board:
         """
         return self.state[0] | self.state[1]
 
+    def key(self) -> int:
+        return self.mask() + self.state[self.player]
+
     def get_opponent(self) -> int:
         """Get the player who played the last move
 
