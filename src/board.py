@@ -2,9 +2,9 @@ from __future__ import annotations
 
 
 class Board:
-    EMPTY_SYMBOL = "."
-    PLAYER_A_SYMBOL = "O"
-    PLAYER_B_SYMBOL = "X"
+    EMPTY_SYMBOL = ". "
+    PLAYER_A_SYMBOL = "O "
+    PLAYER_B_SYMBOL = "X "
 
     def __init__(self, width: int = 7, height: int = 6) -> None:
         """Constructor for Board

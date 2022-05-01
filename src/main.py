@@ -1,6 +1,6 @@
 from board import Board
 from solver import Solver
-import argparse, logging, sys
+import argparse
 
 
 def main() -> None:
@@ -15,28 +15,13 @@ def main() -> None:
         help="dimensions of the gameboard",
     )
     parser.add_argument(
-        "-l",
-        "--log",
-        default="debug",
-        choices=["none", "debug", "warning", "error"],
-        help="logging level",
+        "-D",
+        "--depth",
+        type=int,
+        default=8,
+        help="depth of the search algorithm",
     )
     args = parser.parse_args()
-
-    logging_levels = {
-        "none": None,
-        "debug": logging.DEBUG,
-        "warning": logging.WARNING,
-        "error": logging.ERROR,
-    }
-    level = logging_levels.get(args.log.lower())
-
-    FORMAT = "%(module)s::%(funcName)s::%(lineno)d\t%(message)s"
-
-    if level is None:
-        pass
-    else:
-        logging.basicConfig(stream=sys.stderr, level=level, format=FORMAT)
 
     board = Board(args.dim[0], args.dim[1])
 
@@ -53,7 +38,7 @@ def main() -> None:
             continue
         if board.can_move(col):
             board.move(col)
-            print("Expected score: ", solver.eval_moves(board, depth=4))
+            print("Expected score: ", solver.eval_moves(board, depth=args.depth))
         else:
             print("Can't move there")
         print(board)

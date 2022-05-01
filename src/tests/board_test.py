@@ -1,12 +1,14 @@
 import unittest
 from board import Board
 
+
 def column_equals(board: Board, col: int, column_str: str):
     board_str = str(board)
     for y in range(board.h):
-        if board_str[y * (board.w+1) + col] != column_str[y]:
+        if board_str[y * (board.w + 1) + col] != column_str[y]:
             return False
     return True
+
 
 class TestBoard(unittest.TestCase):
     def setUp(self):
@@ -23,7 +25,10 @@ class TestBoard(unittest.TestCase):
     def test_one_player_move(self):
         self.board.move(0)
         self.assertEqual(
-            str(self.board), ".......\n.......\n.......\n.......\n.......\nO......\n"
+            str(self.board),
+            (Board.EMPTY_SYMBOL * self.board.w + "\n") * (self.board.h - 1)
+            + self.board.PLAYER_A_SYMBOL
+            + (Board.EMPTY_SYMBOL * (self.board.w - 1) + "\n"),
         )
         self.assertEqual(self.board.movecount, 1)
 
@@ -31,7 +36,10 @@ class TestBoard(unittest.TestCase):
         self.board.move(0)
         self.board.move(6)
         self.assertEqual(
-            str(self.board), ".......\n.......\n.......\n.......\n.......\nO.....X\n"
+            str(self.board),
+            (Board.EMPTY_SYMBOL * self.board.w + "\n") * (self.board.h - 1)
+            + self.board.PLAYER_A_SYMBOL
+            + (Board.EMPTY_SYMBOL * (self.board.w - 2) + Board.PLAYER_B_SYMBOL + "\n"),
         )
         self.assertEqual(self.board.movecount, 2)
 
@@ -39,15 +47,22 @@ class TestBoard(unittest.TestCase):
         self.board.move(0)
         self.board.move(0)
         self.assertEqual(
-            str(self.board), ".......\n.......\n.......\n.......\nX......\nO......\n"
+            str(self.board), (Board.EMPTY_SYMBOL * self.board.w + "\n") * (self.board.h - 2)
+            + self.board.PLAYER_B_SYMBOL
+            + (Board.EMPTY_SYMBOL * (self.board.w - 1) + "\n")
+            + self.board.PLAYER_A_SYMBOL
+            + (Board.EMPTY_SYMBOL * (self.board.w - 1) + "\n"),
         )
-    
+
     def test_two_players_fill_first_column(self):
-        for _ in range(self.board.h+1):
+        for _ in range(self.board.h + 1):
             if self.board.can_move(0):
                 self.board.move(0)
         self.assertEqual(
-            str(self.board), "X......\nO......\nX......\nO......\nX......\nO......\n"
+            str(self.board), (self.board.PLAYER_B_SYMBOL
+            + (Board.EMPTY_SYMBOL * (self.board.w - 1) + "\n")
+            + self.board.PLAYER_A_SYMBOL
+            + (Board.EMPTY_SYMBOL * (self.board.w - 1) + "\n"))*(self.board.h//2),
         )
 
     def test_game_ends_vertical_line(self):
