@@ -62,22 +62,12 @@ class Solver:
 
         alpha_orig = alpha
 
-        max_value = (board.w * board.h - 1 - board.movecount) // 2
         key = board.key()
         if key in self.cache:
             value = self.cache[key]
-            #max_value = value + -(board.w*board.h)/2 + 2
             beta = min(beta, value)
             if alpha >= beta:
                 return value
-        '''
-        if beta > max_value:
-            print("value:",alpha, beta, max_value)
-            beta = max_value
-            if alpha >= beta:
-                print("returned")
-                return beta
-         '''
 
         ## Check if the game is over
         if board.is_over():
@@ -91,7 +81,7 @@ class Solver:
 
         value = -board.w * board.h
         for x in range(board.w):
-            #x = self.order[x]
+            x = self.order[x]
             if not board.can_move(x):
                 continue
             board.move(x)
@@ -101,7 +91,6 @@ class Solver:
             if alpha >= beta:
                 break
 
-        #self.cache[key] = alpha + (board.w*board.h)/2 - 2
         if value <= alpha_orig:
             self.cache[key] = value
 
