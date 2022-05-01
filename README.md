@@ -3,7 +3,7 @@
 ## Asennus
 Asenna välttämättömät riippuvuudet
 ```bash
-$ poetry install --no-dev
+$ poetry install
 ```
 Aja ohjelma
 ```bash

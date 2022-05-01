@@ -1,6 +1,5 @@
 from board import Board
 from transposition_table import TranspositionTable
-import numpy as np
 
 class Solver:
     LARGE_NEGATIVE = -(1 << 31)

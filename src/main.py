@@ -1,6 +1,5 @@
 from board import Board
 from solver import Solver
-import numpy as np
 import argparse, logging, sys
 
 
