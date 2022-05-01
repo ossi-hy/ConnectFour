@@ -4,7 +4,7 @@ Tuntimäärä: 2h
 
 ## Tehty
 
-Korjattu ongelmia välimuistiin liittyen.
+Korjattu ongelmia välimuistiin liittyen. Lisätty mahdollisuus pelata tietokonetta vastaan.
 
 ## Opittu
 
@@ -16,4 +16,4 @@ Ei ole
 
 ## Seuraavaksi
 
-Lisää testejä.
+Lisää testejä. Erityisesti suorituskykyä mittaavia.
