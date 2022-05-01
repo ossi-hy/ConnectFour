@@ -21,7 +21,14 @@ def main() -> None:
         default=8,
         help="depth of the search algorithm",
     )
+    parser.add_argument(
+        "-a",
+        "--against",
+        action="store_true",
+        help="play against computer"
+    )
     args = parser.parse_args()
+    print(args)
 
     board = Board(args.dim[0], args.dim[1])
 
@@ -38,12 +45,20 @@ def main() -> None:
             continue
         if board.can_move(col):
             board.move(col)
-            print("Expected score: ", solver.eval_moves(board, depth=args.depth))
+            scores, move, _ = solver.eval_moves(board, depth=args.depth)
+            if args.against:
+                board.move(move)
+            else:
+                print("Expected scores for each position: ", scores)
+                print("Best move: ", move)
         else:
             print("Can't move there")
         print(board)
         if board.is_over():
             print(f"Game over! Player {board.get_opponent()} won.")
+            break
+        elif board.movecount == board.w*board.h:
+            print("Draw!")
             break
 
 
