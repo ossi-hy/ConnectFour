@@ -1,6 +1,5 @@
 from board import Board
 from transposition_table import TranspositionTable
-from copy import copy, deepcopy
 
 class Solver:
     def __init__(self, width: int) -> None:
