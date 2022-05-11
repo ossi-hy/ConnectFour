@@ -19,9 +19,6 @@ class TestBoard(unittest.TestCase):
             str(self.board), (Board.EMPTY_SYMBOL * self.board.w + "\n") * self.board.h
         )
 
-    def test_empty_board_to_array(self):
-        self.assertEqual(self.board.array(), [[0] * self.board.w] * self.board.h)
-
     def test_one_player_move(self):
         self.board.move(0)
         self.assertEqual(

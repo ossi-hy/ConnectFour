@@ -33,6 +33,13 @@ class TestSolver(unittest.TestCase):
             self.board.move(0)
         scores, _, _ = self.solver.eval_moves(self.board, depth=1)
         self.assertIsNone(scores[0])
+    
+    def test_full_board(self):
+        moves = "32162751756771355671355274632416432163244"
+        for move in moves:
+            self.board.move(int(move) - 1)
+        _, _, score = self.solver.eval_moves(self.board, depth=13)
+        self.assertEqual(score, 0)
 
     @pytest.mark.slow
     def test_positions_from_file(self):
