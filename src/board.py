@@ -24,6 +24,7 @@ class Board:
         self.movecount: int = 0
 
         self.col_shifts = [col * (self.h + 1) for col in range(self.w)]
+        self.col_heights = [0]*self.w
 
     def __str__(self) -> str:
         """Converts Board to human readable string
@@ -81,8 +82,7 @@ class Board:
         Returns:
             bool: True if the move is possible
         """
-        # mask & (1 on top row in asked column) == 0
-        return (self.state[0] | self.state[1]) & 1 << (self.h - 1) << self.col_shifts[col] == 0
+        return self.col_heights[col] < self.h
 
     def move(self, col: int) -> None:
         """Makes a move (drops a chip) on the board
@@ -93,11 +93,10 @@ class Board:
         Returns:
             bool: returns True if move was made
         """
-        mask = self.state[0] | self.state[1]
-
-        pos = mask ^ (mask + (1 << self.col_shifts[col]) | mask)
         # Add move on the board of the player
-        self.state[self.player] |= pos
+        self.state[self.player] |= 1 << self.col_shifts[col] + self.col_heights[col]
+
+        self.col_heights[col] += 1
 
         self.movecount += 1
 
@@ -112,12 +111,9 @@ class Board:
         """
         self.player ^= 1 
 
-        mask = self.state[0] | self.state[1]
+        self.col_heights[col] -= 1
 
-        column = mask >> self.col_shifts[col] & 0b1111111
-        pos = (column >> 1 ^ column) << self.col_shifts[col]
-
-        self.state[self.player] ^= pos
+        self.state[self.player] ^= 1 << self.col_shifts[col] + self.col_heights[col]
 
         self.movecount -= 1
 
