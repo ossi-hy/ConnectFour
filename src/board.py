@@ -1,5 +1,6 @@
 from __future__ import annotations
-
+from functools import reduce
+from copy import copy
 
 class Board:
     EMPTY_SYMBOL = ". "

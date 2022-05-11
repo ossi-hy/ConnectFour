@@ -1,7 +1,7 @@
 from board import Board
 from solver import Solver
 import argparse
-
+import sys
 
 def main() -> None:
     parser = argparse.ArgumentParser()
@@ -56,6 +56,7 @@ def main() -> None:
             if score != expected_score:
                 print("TEST FAILED")
                 return
+        print(sys.getsizeof(solver.lb_cache))
         return
 
     while True:

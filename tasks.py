@@ -9,7 +9,7 @@ def start(ctx):
     if OS == "Linux":
         ctx.run("python3 src/main.py", pty=True)
     else:
-        print("Unsupported OS, try instead:\n\tpoetry run python src/main.py")
+        print("Unsupported OS, try instead:\n\tpoetry run python src\main.py")
 
 @task
 def test(ctx):
@@ -44,6 +44,15 @@ def coverage(ctx):
         ctx.run("coverage report -m", pty=True)
     elif OS == "Windows":
         ctx.run("coverage report -m")
+    else:
+       print("Unsupported OS")
+
+@task
+def profile(ctx):
+    if OS == "Linux":
+        ctx.run("python3 -m cProfile -s cumulative src/main.py -p", pty=True)
+    elif OS == "Windows":
+        ctx.run("python -m cProfile -s cumulative src\main.py -p")
     else:
        print("Unsupported OS")
     
