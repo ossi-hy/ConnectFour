@@ -55,5 +55,5 @@ class TestSolver(unittest.TestCase):
             expected_score = int(expected_score)
             for move in moves:
                 board.move(int(move) - 1)
-            _, _, score = self.solver.eval_moves(board, depth=15)
+            score = self.solver.solve(board, depth=14)
             self.assertEqual(score, expected_score)

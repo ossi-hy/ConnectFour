@@ -8,9 +8,7 @@ class Solver:
             self.order.append(width // 2 + (1 - 2 * (i % 2)) * (i + 1) // 2)
 
         # Upper bound cache
-        self.ub_cache = TranspositionTable(2**20)
-        # Lower bound cache
-        self.lb_cache = TranspositionTable(2**20)
+        self.cache = TranspositionTable(2**24)
 
     def eval_moves(self, board: Board, depth: int) -> tuple[list[int], int, int]:
         """Evaluates all the possible moves from given position for current player.
@@ -43,6 +41,19 @@ class Solver:
 
         return scores, best_move, highest_score
 
+    def solve(self, board: Board, depth: int) -> int:
+        upper = (board.w*board.h + 1 - board.movecount)//2
+        lower = -(board.w*board.h - board.movecount)//2
+        value = 0
+        while lower < upper:
+            beta = max(value, lower + 1)
+            value = self.negamax(board, beta - 1, beta, depth)
+            if value < beta:
+                upper = value
+            else:
+                lower = value
+        return value
+
     def negamax(self, board: Board, alpha: int, beta: int, depth: int) -> int:
         """Variation of minimax algorithm for symmetric games.
         Finds best move by expanding all possible moves recursively until draw or other player wins.
@@ -69,18 +80,14 @@ class Solver:
         if board.is_over():
             return board.score()
 
-        
-        alpha_orig = alpha
         # Search cache for this board
         key = board.key()
-        if key in self.ub_cache:
-            value = self.ub_cache[key]
-            beta = min(beta, value)
-            if alpha >= beta:
-                return value
-        elif key in self.lb_cache:
-            value = self.lb_cache[key]
-            alpha = max(alpha, value)          
+        if key in self.cache:
+            type, value = self.cache[key]
+            if type == 1:
+                beta = min(beta, value)
+            elif type == 0:
+                alpha = max(alpha, value)
             if alpha >= beta:
                 return value
         
@@ -99,14 +106,13 @@ class Solver:
                 board.unmove(x)
 
                 if value >= beta:
-                    self.lb_cache[key] = value
+                    self.cache[key] = (0, value)
                     return value
 
                 if value > alpha:
                     alpha = value
 
-        if alpha <= alpha_orig:
-            self.ub_cache[key] = alpha
+        self.cache[key] = (1, alpha)
 
 
         return alpha

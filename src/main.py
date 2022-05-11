@@ -52,7 +52,7 @@ def main() -> None:
             expected_score = int(expected_score)
             for move in moves:
                 board.move(int(move) - 1)
-            _, _, score = solver.eval_moves(board, depth=14)
+            score = solver.solve(board, depth=15)
             if score != expected_score:
                 print("TEST FAILED")
                 return
