@@ -13,15 +13,17 @@ class Board:
             width (int, optional): Width of the playable board. Defaults to 7.
             height (int, optional): Height of the playable board. Defaults to 6.
         """
-        self.w = width
-        self.h = height
+        self.w: int = width
+        self.h: int = height
 
         # Represent state with bitboards, one for each player
-        self.state = [0, 0]
+        self.state: list[int] = [0, 0]
         # 0 = Player A, 1 = Player B
-        self.player = 0
+        self.player: int = 0
 
-        self.movecount = 0
+        self.movecount: int = 0
+
+        self.col_shifts = [col * (self.h + 1) for col in range(self.w)]
 
     def __str__(self) -> str:
         """Converts Board to human readable string
@@ -59,16 +61,8 @@ class Board:
             ret_array.append(row)
         return ret_array
 
-    def mask(self) -> int:
-        """Calculates all occupied positions by both players
-
-        Returns:
-            int: bitboard with one in all occupied positions
-        """
-        return self.state[0] | self.state[1]
-
     def key(self) -> int:
-        return self.mask() + self.state[self.player]
+        return (self.state[0] | self.state[1]) + self.state[self.player]
 
     def get_opponent(self) -> int:
         """Get the player who played the last move
@@ -76,7 +70,7 @@ class Board:
         Returns:
             int: player number, 1 or 0
         """
-        return 0 if self.player == 1 else 1
+        return self.player ^ 1 
 
     def can_move(self, col: int) -> bool:
         """Checks if you can make a move to the given colum (if there's space left)
@@ -87,7 +81,8 @@ class Board:
         Returns:
             bool: True if the move is possible
         """
-        return self.mask() & 1 << (self.h - 1) << col * (self.h + 1) == 0
+        # mask & (1 on top row in asked column) == 0
+        return (self.state[0] | self.state[1]) & 1 << (self.h - 1) << self.col_shifts[col] == 0
 
     def move(self, col: int) -> None:
         """Makes a move (drops a chip) on the board
@@ -98,17 +93,16 @@ class Board:
         Returns:
             bool: returns True if move was made
         """
-        # height = (self.mask() >> (col * (self.h + 1)) & 0b111111).bit_length()
-        mask = self.mask()
+        mask = self.state[0] | self.state[1]
 
-        pos = mask ^ (mask + (1 << col * (self.h + 1)) | mask)
+        pos = mask ^ (mask + (1 << self.col_shifts[col]) | mask)
         # Add move on the board of the player
         self.state[self.player] |= pos
 
         self.movecount += 1
 
         # Change player
-        self.player = 0 if self.player == 1 else 1
+        self.player ^= 1 
 
     def unmove(self, col: int) -> None:
         """Backtrack the move made to the given column
@@ -116,12 +110,12 @@ class Board:
         Args:
             col (int): column to remove the last played chip from
         """
-        self.player = 0 if self.player == 1 else 1
+        self.player ^= 1 
 
-        mask = self.mask()
+        mask = self.state[0] | self.state[1]
 
-        column = mask >> col * (self.h + 1) & 0b1111111
-        pos = (column >> 1 ^ column) << col * (self.h + 1)
+        column = mask >> self.col_shifts[col] & 0b1111111
+        pos = (column >> 1 ^ column) << self.col_shifts[col]
 
         self.state[self.player] ^= pos
 

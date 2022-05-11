@@ -59,24 +59,21 @@ class Solver:
         if depth == 0:
             return 0
 
-        alpha_orig = alpha
+        # Check if the game is over
+        if board.is_over():
+            return board.score()
+        # Draw
+        elif board.movecount == board.w * board.h:
+            return 0
 
+        alpha_orig = alpha
+        # Search cache for this board
         key = board.key()
         if key in self.cache:
             value = self.cache[key]
             beta = min(beta, value)
             if alpha >= beta:
                 return value
-
-        ## Check if the game is over
-        if board.is_over():
-            return board.score()
-        elif board.movecount == board.w * board.h:
-            return 0
-
-        # Check for draw
-        if board.movecount == board.w * board.h:
-            return 0
 
         value = -board.w * board.h
         for x in range(board.w):
