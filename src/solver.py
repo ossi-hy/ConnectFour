@@ -28,9 +28,7 @@ class Solver:
             if board.can_move(x):
                 board.move(x)
                 # Calculate opponent's score after player's move
-                score = -self.negamax(
-                    board, -board.w*board.h//2, board.w*board.h//2, depth
-                )
+                score = -self.solve(board, depth=depth)
                 board.unmove(x)
 
                 if score > highest_score:

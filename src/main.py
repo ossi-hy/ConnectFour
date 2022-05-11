@@ -17,7 +17,7 @@ def main() -> None:
         "-D",
         "--depth",
         type=int,
-        default=8,
+        default=9,
         help="depth of the search algorithm",
     )
     parser.add_argument(
