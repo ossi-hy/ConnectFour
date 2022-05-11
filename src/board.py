@@ -1,5 +1,29 @@
 from __future__ import annotations
+from functools import lru_cache
 
+@lru_cache(maxsize=2**20)
+def four_in_a_row(state):
+    # Horizontal check
+    test = state & state >> 7
+    if test & test >> 14:
+        return True
+
+    # Vertical check
+    test = state & state >> 1
+    if test & test >> 2:
+        return True
+
+    # Diagonal check
+    test = state & state >> 6
+    if test & test >> 12:
+        return True
+
+    # Diagonal check
+    test = state & state >> 8
+    if test & test >> 16:
+        return True
+
+    return False
 
 class Board:
     EMPTY_SYMBOL = ". "
@@ -102,6 +126,8 @@ class Board:
         opp = self.player ^ 1
 
         state = self.state[opp]
+
+        return four_in_a_row(state)
 
         # Horizontal check
         test = state & state >> self.h + 1
