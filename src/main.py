@@ -39,11 +39,12 @@ def main() -> None:
     solver = Solver(board.w)
 
     if args.profile:
-        filename = "src/tests/test_depth_13.txt"
+        filename = "src/tests/test_depth_13_mid.txt"
         lines = []
         with open(filename, "r") as f:
             lines = f.readlines()
-        for line in lines:
+        for i, line in enumerate(lines):
+            print(f"{i}/{len(lines)}")
             # Create empty board for each new sequence
             board = Board()
             # Each line will consist of sequence of moves and expected score for the first player 
@@ -51,7 +52,7 @@ def main() -> None:
             expected_score = int(expected_score)
             for move in moves:
                 board.move(int(move) - 1)
-            _, _, score = solver.eval_moves(board, depth=13)
+            _, _, score = solver.eval_moves(board, depth=14)
             if score != expected_score:
                 print("TEST FAILED")
                 return

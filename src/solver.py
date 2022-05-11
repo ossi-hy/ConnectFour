@@ -8,9 +8,9 @@ class Solver:
             self.order.append(width // 2 + (1 - 2 * (i % 2)) * (i + 1) // 2)
 
         # Upper bound cache
-        self.ub_cache = TranspositionTable(2**24)
+        self.ub_cache = TranspositionTable(2**20)
         # Lower bound cache
-        self.lb_cache = TranspositionTable(2**24)
+        self.lb_cache = TranspositionTable(2**20)
 
     def eval_moves(self, board: Board, depth: int) -> tuple[list[int], int, int]:
         """Evaluates all the possible moves from given position for current player.
@@ -23,25 +23,23 @@ class Solver:
             tuple[list[int], int, int]: Returns list of expected scores for each position (None if move is not possible),
             column of the best move and expected score for the best move
         """
-        scores = []
+        scores = [None] * board.w
         highest_score = -board.w*board.h//2
         best_move = 0
-        for x in range(board.w):
-            if not board.can_move(x):
-                scores.append(None)
-                continue
-            board.move(x)
-            # Calculate opponent's score after player's move
-            score = -self.negamax(
-                board, -board.w*board.h//2, board.w*board.h//2, depth
-            )
-            board.unmove(x)
+        for x in self.order:
+            if board.can_move(x):
+                board.move(x)
+                # Calculate opponent's score after player's move
+                score = -self.negamax(
+                    board, -board.w*board.h//2, board.w*board.h//2, depth
+                )
+                board.unmove(x)
 
-            if score > highest_score:
-                best_move = x
-                highest_score = score
+                if score > highest_score:
+                    best_move = x
+                    highest_score = score
 
-            scores.append(score)
+                scores[x] = score
 
         return scores, best_move, highest_score
 

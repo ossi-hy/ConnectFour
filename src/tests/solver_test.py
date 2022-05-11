@@ -20,7 +20,7 @@ class TestSolver(unittest.TestCase):
         for move in moves:
             self.board.move(move)
         scores, _, _ = self.solver.eval_moves(self.board, depth=4)
-        best_of_bads = Solver.LARGE_NEGATIVE
+        best_of_bads = -self.board.w*self.board.h//2
         for x in range(self.board.w):
             if x == 2 or x == 5:
                 continue
