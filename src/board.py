@@ -65,14 +65,6 @@ class Board:
     def key(self) -> int:
         return (self.state[0] | self.state[1]) + self.state[self.player]
 
-    def get_opponent(self) -> int:
-        """Get the player who played the last move
-
-        Returns:
-            int: player number, 1 or 0
-        """
-        return self.player ^ 1 
-
     def can_move(self, col: int) -> bool:
         """Checks if you can make a move to the given colum (if there's space left)
 
@@ -124,26 +116,28 @@ class Board:
             bool: returns True if there is four in a row
         """
 
-        opp = self.get_opponent()
+        opp = self.player ^ 1
+
+        state = self.state[opp]
 
         # Horizontal check
-        test = self.state[opp] & (self.state[opp] >> (self.h + 1))
-        if test & (test >> 2 * (self.h + 1)):
+        test = state & state >> self.h + 1
+        if test & test >> 2 * (self.h + 1):
             return True
 
         # Vertical check
-        test = self.state[opp] & (self.state[opp] >> 1)
-        if test & (test >> 2):
+        test = state & state >> 1
+        if test & test >> 2:
             return True
 
         # Diagonal check
-        test = self.state[opp] & (self.state[opp] >> self.h)
-        if test & (test >> 2 * self.h):
+        test = state & state >> self.h
+        if test & test >> 2 * self.h:
             return True
 
         # Diagonal check
-        test = self.state[opp] & (self.state[opp] >> (self.h + 2))
-        if test & (test >> 2 * (self.h + 2)):
+        test = state & state >> self.h + 2
+        if test & test >> 2 * (self.h + 2):
             return True
 
         return False

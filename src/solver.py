@@ -81,9 +81,16 @@ class Solver:
             if not board.can_move(x):
                 continue
             board.move(x)
-            value = max(value, -self.negamax(board, -beta, -alpha, depth - 1))
+
+            v = -self.negamax(board, -beta, -alpha, depth - 1)
+            if v > value:
+                value = v
+
             board.unmove(x)
-            alpha = max(alpha, value)
+            
+            if value > alpha:
+                alpha = value
+
             if alpha >= beta:
                 break
 
