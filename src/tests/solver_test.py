@@ -46,8 +46,8 @@ class TestSolver(unittest.TestCase):
             # Each line will consist of sequence of moves and expected score for the first player 
             moves, expected_score = tuple(line.strip().split(' '))
             expected_score = int(expected_score)
-            for i in range(len(moves)):
-                board.move(int(moves[i]) - 1)
+            for move in moves:
+                board.move(int(move) - 1)
             _, _, score = self.solver.eval_moves(board, depth=13)
             print(score, expected_score)
             print(board)

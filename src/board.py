@@ -87,8 +87,7 @@ class Board:
         Returns:
             bool: True if the move is possible
         """
-        height = (self.mask() >> (col * (self.h + 1)) & 0b111111).bit_length()
-        return height < self.h
+        return self.mask() & 1 << (self.h - 1) << col * (self.h + 1) == 0
 
     def move(self, col: int) -> None:
         """Makes a move (drops a chip) on the board
@@ -99,10 +98,10 @@ class Board:
         Returns:
             bool: returns True if move was made
         """
-        height = (self.mask() >> (col * (self.h + 1)) & 0b111111).bit_length()
+        # height = (self.mask() >> (col * (self.h + 1)) & 0b111111).bit_length()
+        mask = self.mask()
 
-
-        pos = 1 << (col * (self.h + 1) + height)
+        pos = mask ^ (mask + (1 << col * (self.h + 1)) | mask)
         # Add move on the board of the player
         self.state[self.player] |= pos
 
@@ -119,8 +118,10 @@ class Board:
         """
         self.player = 0 if self.player == 1 else 1
 
-        height = (self.mask() >> (col * (self.h + 1)) & 0b111111).bit_length() - 1
-        pos = 1 << (col * (self.h + 1) + height)
+        mask = self.mask()
+
+        column = mask >> col * (self.h + 1) & 0b1111111
+        pos = (column >> 1 ^ column) << col * (self.h + 1)
 
         self.state[self.player] ^= pos
 
@@ -158,7 +159,7 @@ class Board:
         return False
 
     def score(self) -> int:
-        """Returns the score for the current player. 
+        """Returns the score for the current player.
         This should be only used after the game is over.
 
         Returns:

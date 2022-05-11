@@ -10,7 +10,7 @@ class Solver:
         for i in range(width):
             self.order.append(width // 2 + (1 - 2 * (i % 2)) * (i + 1) // 2)
 
-        self.cache = TranspositionTable(128)
+        self.cache = TranspositionTable(256)
 
     def eval_moves(self, board: Board, depth: int) -> tuple[list[int], int, int]:
         """Evaluates all the possible moves from given position for current player.

@@ -28,7 +28,6 @@ def main() -> None:
         help="play against computer"
     )
     args = parser.parse_args()
-    print(args)
 
     board = Board(args.dim[0], args.dim[1])
 
