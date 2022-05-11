@@ -1,8 +1,9 @@
 from os import system
-from invoke import task # type: ignore
+from invoke import task  # type: ignore
 import platform
 
 OS = platform.system()
+
 
 @task
 def start(ctx):
@@ -11,6 +12,7 @@ def start(ctx):
     else:
         print("Unsupported OS, try instead:\n\tpoetry run python src\main.py")
 
+
 @task
 def start_against(ctx):
     if OS == "Linux":
@@ -18,14 +20,16 @@ def start_against(ctx):
     else:
         print("Unsupported OS, try instead:\n\tpoetry run python src\main.py -a")
 
+
 @task
 def test(ctx):
     if OS == "Linux":
-        ctx.run("coverage run --branch -m pytest src -m \"not slow\"", pty=True)
+        ctx.run('coverage run --branch -m pytest src -m "not slow"', pty=True)
     elif OS == "Windows":
-        ctx.run("coverage run --branch -m pytest src -m \"not slow\"")
+        ctx.run('coverage run --branch -m pytest src -m "not slow"')
     else:
         print("Unsupported OS")
+
 
 @task
 def slow_test(ctx):
@@ -36,6 +40,7 @@ def slow_test(ctx):
     else:
         print("Unsupported OS")
 
+
 @task(test)
 def coverage_report(ctx):
     if OS == "Linux":
@@ -43,7 +48,8 @@ def coverage_report(ctx):
     elif OS == "Windows":
         ctx.run("coverage html -d docs")
     else:
-       print("Unsupported OS")
+        print("Unsupported OS")
+
 
 @task(test)
 def coverage(ctx):
@@ -52,7 +58,8 @@ def coverage(ctx):
     elif OS == "Windows":
         ctx.run("coverage report -m")
     else:
-       print("Unsupported OS")
+        print("Unsupported OS")
+
 
 @task
 def profile(ctx):
@@ -61,5 +68,4 @@ def profile(ctx):
     elif OS == "Windows":
         ctx.run("python -m cProfile -s cumulative src\main.py -p")
     else:
-       print("Unsupported OS")
-    
+        print("Unsupported OS")

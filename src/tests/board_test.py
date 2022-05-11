@@ -44,7 +44,8 @@ class TestBoard(unittest.TestCase):
         self.board.move(0)
         self.board.move(0)
         self.assertEqual(
-            str(self.board), (Board.EMPTY_SYMBOL * self.board.w + "\n") * (self.board.h - 2)
+            str(self.board),
+            (Board.EMPTY_SYMBOL * self.board.w + "\n") * (self.board.h - 2)
             + self.board.PLAYER_B_SYMBOL
             + (Board.EMPTY_SYMBOL * (self.board.w - 1) + "\n")
             + self.board.PLAYER_A_SYMBOL
@@ -56,10 +57,14 @@ class TestBoard(unittest.TestCase):
             if self.board.can_move(0):
                 self.board.move(0)
         self.assertEqual(
-            str(self.board), (self.board.PLAYER_B_SYMBOL
-            + (Board.EMPTY_SYMBOL * (self.board.w - 1) + "\n")
-            + self.board.PLAYER_A_SYMBOL
-            + (Board.EMPTY_SYMBOL * (self.board.w - 1) + "\n"))*(self.board.h//2),
+            str(self.board),
+            (
+                self.board.PLAYER_B_SYMBOL
+                + (Board.EMPTY_SYMBOL * (self.board.w - 1) + "\n")
+                + self.board.PLAYER_A_SYMBOL
+                + (Board.EMPTY_SYMBOL * (self.board.w - 1) + "\n")
+            )
+            * (self.board.h // 2),
         )
 
     def test_game_ends_vertical_line(self):

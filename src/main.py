@@ -1,6 +1,8 @@
 from board import Board
 from solver import Solver
 import argparse
+from time import time
+
 
 def main() -> None:
     parser = argparse.ArgumentParser()
@@ -21,16 +23,10 @@ def main() -> None:
         help="depth of the search algorithm",
     )
     parser.add_argument(
-        "-a",
-        "--against",
-        action="store_true",
-        help="play against computer"
+        "-a", "--against", action="store_true", help="play against computer"
     )
     parser.add_argument(
-        "-p",
-        "--profile",
-        action="store_true",
-        help="profile code by running slow test"
+        "-p", "--profile", action="store_true", help="profile code by running slow test"
     )
     args = parser.parse_args()
 
@@ -47,8 +43,8 @@ def main() -> None:
             print(f"{i}/{len(lines)}")
             # Create empty board for each new sequence
             board = Board()
-            # Each line will consist of sequence of moves and expected score for the first player 
-            moves, expected_score = tuple(line.strip().split(' '))
+            # Each line will consist of sequence of moves and expected score for the first player
+            moves, expected_score = tuple(line.strip().split(" "))
             expected_score = int(expected_score)
             for move in moves:
                 board.move(int(move) - 1)
@@ -56,7 +52,10 @@ def main() -> None:
             if score != expected_score:
                 print("TEST FAILED")
                 return
+        print(f"Evaluated nodes: {solver.count}")
         return
+
+    total_time = 0
 
     while True:
         print(f"Player {board.player} turn")
@@ -70,7 +69,10 @@ def main() -> None:
             continue
         if board.can_move(col):
             board.move(col)
+            start = time()
             scores, move, _ = solver.eval_moves(board, depth=args.depth)
+            end = time()
+            total_time += end - start
             if args.against:
                 board.move(move)
             else:
@@ -79,10 +81,13 @@ def main() -> None:
         else:
             print("Can't move there")
         print(board)
+        print(
+            f"Evaluated nodes so far: {solver.count} in {total_time:.2f}s ({int(solver.count/total_time)}n/s)"
+        )
         if board.is_over():
             print(f"Game over! Player {board.get_opponent()} won.")
             break
-        elif board.movecount == board.w*board.h:
+        elif board.movecount == board.w * board.h:
             print("Draw!")
             break
 

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+
 class Board:
     EMPTY_SYMBOL = ". "
     PLAYER_A_SYMBOL = "O "

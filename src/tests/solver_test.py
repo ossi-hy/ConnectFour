@@ -3,24 +3,25 @@ import pytest  # type: ignore
 from board import Board
 from solver import Solver
 
+
 class TestSolver(unittest.TestCase):
     def setUp(self) -> None:
         self.board = Board()
         self.solver = Solver(self.board.w)
-    
+
     def test_find_winning_move_one_ahead(self):
-        moves = [0,0,1,1,2,2]
+        moves = [0, 0, 1, 1, 2, 2]
         for move in moves:
             self.board.move(move)
         _, move, _ = self.solver.eval_moves(self.board, depth=1)
         self.assertEqual(move, 3)
 
     def test_find_defending_moves_four_ahead(self):
-        moves = [3,3,4]
+        moves = [3, 3, 4]
         for move in moves:
             self.board.move(move)
         scores, _, _ = self.solver.eval_moves(self.board, depth=4)
-        best_of_bads = -self.board.w*self.board.h//2
+        best_of_bads = -self.board.w * self.board.h // 2
         for x in range(self.board.w):
             if x == 2 or x == 5:
                 continue
@@ -33,7 +34,7 @@ class TestSolver(unittest.TestCase):
             self.board.move(0)
         scores, _, _ = self.solver.eval_moves(self.board, depth=1)
         self.assertIsNone(scores[0])
-    
+
     def test_full_board(self):
         moves = "32162751756771355671355274632416432163244"
         for move in moves:
@@ -50,8 +51,8 @@ class TestSolver(unittest.TestCase):
         for line in lines:
             # Create empty board for each new sequence
             board = Board()
-            # Each line will consist of sequence of moves and expected score for the first player 
-            moves, expected_score = tuple(line.strip().split(' '))
+            # Each line will consist of sequence of moves and expected score for the first player
+            moves, expected_score = tuple(line.strip().split(" "))
             expected_score = int(expected_score)
             for move in moves:
                 board.move(int(move) - 1)

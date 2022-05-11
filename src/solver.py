@@ -1,6 +1,7 @@
 from board import Board
 from transposition_table import TranspositionTable
 
+
 class Solver:
     def __init__(self, width: int) -> None:
         self.order = []
@@ -9,6 +10,8 @@ class Solver:
 
         # Upper bound cache
         self.cache = TranspositionTable(2**24)
+
+        self.count = 0
 
     def eval_moves(self, board: Board, depth: int) -> tuple[list[int], int, int]:
         """Evaluates all the possible moves from given position for current player.
@@ -22,7 +25,7 @@ class Solver:
             column of the best move and expected score for the best move
         """
         scores = [None] * board.w
-        highest_score = -board.w*board.h//2
+        highest_score = -board.w * board.h // 2
         best_move = 0
         for x in self.order:
             if board.can_move(x):
@@ -40,8 +43,8 @@ class Solver:
         return scores, best_move, highest_score
 
     def solve(self, board: Board, depth: int) -> int:
-        upper = (board.w*board.h + 1 - board.movecount)//2
-        lower = -(board.w*board.h - board.movecount)//2
+        upper = (board.w * board.h + 1 - board.movecount) // 2
+        lower = -(board.w * board.h - board.movecount) // 2
         value = 0
         while lower < upper:
             beta = max(value, lower + 1)
@@ -69,6 +72,8 @@ class Solver:
         if depth == 0:
             return 0
 
+        self.count += 1
+
         if board.movecount == board.w * board.h:
             if board.is_over():
                 return board.score()
@@ -92,14 +97,12 @@ class Solver:
                 alpha = max(alpha, value)
             if alpha >= beta:
                 return value
-        
 
         max_val = (board.w * board.h + 1 - board.movecount) // 2
         if beta > max_val:
             beta = max_val
             if alpha >= beta:
-               return beta
-
+                return beta
 
         for x in self.order:
             if board.can_move(x):
