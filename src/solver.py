@@ -80,11 +80,15 @@ class Solver:
         if board.is_over():
             return board.score()
 
+        alpha_orig = alpha
+
         # Search cache for this board
         key = board.key()
         if key in self.cache:
             type, value = self.cache[key]
-            if type == 1:
+            if type == 2:
+                return value
+            elif type == 1:
                 beta = min(beta, value)
             elif type == 0:
                 alpha = max(alpha, value)
@@ -112,7 +116,9 @@ class Solver:
                 if value > alpha:
                     alpha = value
 
-        self.cache[key] = (1, alpha)
-
+        if alpha <= alpha_orig:
+            self.cache[key] = (1, alpha)
+        else:
+            self.cache[key] = (2, alpha)
 
         return alpha
