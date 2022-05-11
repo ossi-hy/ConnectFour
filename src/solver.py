@@ -10,7 +10,10 @@ class Solver:
         for i in range(width):
             self.order.append(width // 2 + (1 - 2 * (i % 2)) * (i + 1) // 2)
 
-        self.cache = TranspositionTable(256)
+        # Upper bound cache
+        self.ub_cache = TranspositionTable(1024)
+        # Lower bound cache
+        self.lb_cache = TranspositionTable(1024)
 
     def eval_moves(self, board: Board, depth: int) -> tuple[list[int], int, int]:
         """Evaluates all the possible moves from given position for current player.
@@ -59,21 +62,27 @@ class Solver:
         if depth == 0:
             return 0
 
-        # Check if the game is over
-        if board.is_over():
-            return board.score()
-        # Draw
-        elif board.movecount == board.w * board.h:
+        if board.movecount == board.w * board.h:
+            if board.is_over():
+                return board.score()
             return 0
 
         alpha_orig = alpha
         # Search cache for this board
         key = board.key()
-        if key in self.cache:
-            value = self.cache[key]
+        if key in self.ub_cache:
+            value = self.ub_cache[key]
             beta = min(beta, value)
-            if alpha >= beta:
-                return value
+        if key in self.lb_cache:
+            value = self.lb_cache[key]
+            alpha = max(alpha, value)
+
+        if alpha >= beta:
+            return value
+
+        # Check if the game is over
+        if board.is_over():
+            return board.score()
 
         value = -board.w * board.h
         for x in range(board.w):
@@ -87,7 +96,7 @@ class Solver:
                 value = v
 
             board.unmove(x)
-            
+
             if value > alpha:
                 alpha = value
 
@@ -95,6 +104,9 @@ class Solver:
                 break
 
         if value <= alpha_orig:
-            self.cache[key] = value
+            self.ub_cache[key] = value
+        if value >= beta:
+            self.lb_cache[key] = value
+
 
         return value

@@ -23,8 +23,7 @@ class Board:
 
         self.movecount: int = 0
 
-        self.col_shifts = [col * (self.h + 1) for col in range(self.w)]
-        self.col_heights = [0]*self.w
+        self.col_heights = [0] * self.w
 
     def __str__(self) -> str:
         """Converts Board to human readable string
@@ -45,22 +44,6 @@ class Board:
                     ret_string += Board.EMPTY_SYMBOL
             ret_string += "\n"
         return ret_string
-
-    def array(self) -> list[list[int]]:
-        ret_array = []
-        for i in range(self.h - 1, -1, -1):
-            row = []
-            for j in range(self.w):
-                a = 1 & self.state[0] >> (j * (self.h + 1) + i) == 1
-                b = 1 & self.state[1] >> (j * (self.h + 1) + i) == 1
-                if a:
-                    row.append(1)
-                elif b:
-                    row.append(2)
-                else:
-                    row.append(0)
-            ret_array.append(row)
-        return ret_array
 
     def key(self) -> int:
         return (self.state[0] | self.state[1]) + self.state[self.player]
@@ -86,14 +69,14 @@ class Board:
             bool: returns True if move was made
         """
         # Add move on the board of the player
-        self.state[self.player] |= 1 << self.col_shifts[col] + self.col_heights[col]
+        self.state[self.player] |= 1 << col * (self.h + 1) + self.col_heights[col]
 
         self.col_heights[col] += 1
 
         self.movecount += 1
 
         # Change player
-        self.player ^= 1 
+        self.player ^= 1
 
     def unmove(self, col: int) -> None:
         """Backtrack the move made to the given column
@@ -101,11 +84,11 @@ class Board:
         Args:
             col (int): column to remove the last played chip from
         """
-        self.player ^= 1 
+        self.player ^= 1
 
         self.col_heights[col] -= 1
 
-        self.state[self.player] ^= 1 << self.col_shifts[col] + self.col_heights[col]
+        self.state[self.player] ^= 1 << col * (self.h + 1) + self.col_heights[col]
 
         self.movecount -= 1
 
