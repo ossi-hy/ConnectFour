@@ -5,12 +5,15 @@ Tarvitset [Poetryn](https://python-poetry.org/) asentaaksesi ohjelman.
 
 Asenna välttämättömät riippuvuudet
 ```bash
-$ poetry install
+$ poetry install [--no-dev]
 ```
+
 Aja ohjelma
 ```bash
 $ poetry run invoke start
 ```
+
+[Käyttöohje](/documents/Kayttoohje.md)
 
 [Testikattavuus](https://ossi-hy.github.io/ConnectFour/)
 

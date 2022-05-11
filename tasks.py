@@ -12,6 +12,13 @@ def start(ctx):
         print("Unsupported OS, try instead:\n\tpoetry run python src\main.py")
 
 @task
+def start_against(ctx):
+    if OS == "Linux":
+        ctx.run("python3 src/main.py -a", pty=True)
+    else:
+        print("Unsupported OS, try instead:\n\tpoetry run python src\main.py -a")
+
+@task
 def test(ctx):
     if OS == "Linux":
         ctx.run("coverage run --branch -m pytest src -m \"not slow\"", pty=True)
