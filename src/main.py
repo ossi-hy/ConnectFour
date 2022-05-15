@@ -35,12 +35,12 @@ def main() -> None:
     solver = Solver(board.w)
 
     if args.profile:
-        filename = "src/tests/test_depth_13_mid.txt"
+        filename = "src/tests/test_depth_13.txt"
         lines = []
         with open(filename, "r") as f:
             lines = f.readlines()
         for i, line in enumerate(lines):
-            print(f"{i}/{len(lines)}")
+            # print(f"{i}/{len(lines)}")
             # Create empty board for each new sequence
             board = Board()
             # Each line will consist of sequence of moves and expected score for the first player
@@ -72,7 +72,7 @@ def main() -> None:
             start = time()
             scores, move, _ = solver.eval_moves(board, depth=args.depth)
             end = time()
-            total_time += end - start
+            total_time = end - start
             if args.against:
                 board.move(move)
             else:
@@ -81,9 +81,11 @@ def main() -> None:
         else:
             print("Can't move there")
         print(board)
-        print(
-            f"Evaluated nodes so far: {solver.count} in {total_time:.2f}s ({int(solver.count/total_time)}n/s)"
-        )
+        if total_time > 0:
+            print(
+                f"Evaluated: {solver.count} nodes in {total_time:.2f}s ({int(solver.count/total_time)}n/s)"
+            )
+        solver.count = 0
         if board.is_over():
             print(f"Game over! Player {board.get_opponent()} won.")
             break

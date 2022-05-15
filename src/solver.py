@@ -43,6 +43,15 @@ class Solver:
         return scores, best_move, highest_score
 
     def solve(self, board: Board, depth: int) -> int:
+        """Solve value for a board using MFD(f)
+
+        Args:
+            board (Board): board to evaluate
+            depth (int): max depth of the search
+
+        Returns:
+            int: value of the given board position
+        """
         upper = (board.w * board.h + 1 - board.movecount) // 2
         lower = -(board.w * board.h - board.movecount) // 2
         value = 0
