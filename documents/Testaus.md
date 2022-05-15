@@ -4,7 +4,7 @@
 
 ## Mitä on testattu?
 
-Testattu pelilogiikkaa ja pelilaudan tulostamista. Testattu pelin päättymistä neljän suorasta. Testattu algoritmin toimintaa erittäin kattavasti esilasketuilla tauluilla.
+Testattu pelilogiikkaa ja pelilaudan tulostamista. Testattu pelin päättymistä neljän suorasta. Testattu algoritmin toimintaa sekä simppeleissä ihmisen luettavissa tilanteissa, että erittäin kattavasti esilasketuilla tauluilla.
 
 ## Testien toistaminen
 
@@ -19,3 +19,7 @@ Tämän jälkeen testien kattavuuden voi katsoa komennolla
 
 Kattavuudesta voi muodostaa HTML-raportin komennolla
 ```$ poetry run invoke coverage-html```
+Reportti löytyy kansiosta `docs` ja sitä voi katsoa avaamalla tiedoston `index.html`.
+
+Esilaskettuihin tauluihin perustuvat testit voi ajaa komennolla
+```$ poetry run invoke slow-test```
