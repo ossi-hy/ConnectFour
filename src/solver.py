@@ -1,3 +1,4 @@
+from __future__ import annotations
 from board import Board
 from transposition_table import TranspositionTable
 
