@@ -4,11 +4,11 @@ Tuntimäärä: 6h
 
 ## Tehty
 
-Lisätty MFD(f) algortimi. Lisätty myös beta-arvojen tallentaiminen välimuistiin.
+Lisätty MTD(f) algortimi. Lisätty myös beta-arvojen tallentaiminen välimuistiin.
 
 ## Opittu
 
-MFD(f) algoritmin toteutus.
+MTD(f) algoritmin toteutus.
 
 ## Epäselvää
 

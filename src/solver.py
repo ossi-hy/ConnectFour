@@ -43,7 +43,7 @@ class Solver:
         return scores, best_move, highest_score
 
     def solve(self, board: Board, depth: int) -> int:
-        """Solve value for a board using MFD(f)
+        """Solve value for a board using MTD(f)
 
         Args:
             board (Board): board to evaluate

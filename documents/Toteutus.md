@@ -2,17 +2,18 @@
 
 ## Ohjelman yleisrakenne
 
-Ohjelma on jaettu kolmeen osaan. *Main.py* on ohjelman aloituskohta, jonka avulla voi testata ratkaisijan toimintaa komentoriviltä. *Board*-luokka huolehtii pelilaudasta ja tarjoaa metodeja siirtojen tekemiseen ja voittajan määrittämiseen. *Solver*-luokka toteuttaa negamax-algoritmin alpha-beta karsinnalla. Se tarjoaa myös metodin parhaan siirron löytämiseen.
+Ohjelma on jaettu kolmeen osaan. [main.py](../src/main.py) on ohjelman aloituskohta, jonka avulla voi testata ratkaisijan toimintaa ja pelata tietokonetta vastaan komentoriviltä. *Board*-luokka huolehtii pelilaudasta ja tarjoaa metodeja siirtojen tekemiseen ja voittajan määrittämiseen. *Solver*-luokka toteuttaa negamax-algoritmin alpha-beta karsinnalla. Se tarjoaa myös metodin parhaan siirron löytämiseen. *TranspositionTable*-luokka toteuttaa järjestetyn hajautustaulun maksimikoolla ja LRU-korvausalgoritmilla, jota käytetään välimuistina *Solver*-luokassa.
 
 ## Aika- ja tilavaativuudet
 
-Ohjleman aikavaativuus on $O(b^d)$, missä $b$ on mahdollisten siirtojen määrä (yleensä pelilaudan leveys, eli 7) ja $d$ on hakupuun syvyys, eli jäljellä olevien mahdollisten siirtojen määrä ennen voittoa tai tasapeliä (aloitukssta tasapeliin menee $7*6=42$ siirtoa). Koska pelilauta peruu aikasemmat siirrot algoritmin peruuttaessa hakupuuta ylöspäin, sen tilavaativus on vain yhden pelilaudan verran, eli vakio $O(1)$.
+Ohjleman aikavaativuuden yläraja on $O(b^d)$, missä $b$ on mahdollisten siirtojen määrä (yleensä pelilaudan leveys, eli 7) ja $d$ on hakupuun syvyys, eli jäljellä olevien mahdollisten siirtojen määrä ennen voittoa tai tasapeliä (aloitukssta tasapeliin menee $7*6=42$ siirtoa). Algoritmi ei luo kopiota pelilaudasta edetessään hakupuussa, mutta välimuisti tallentaa tietoa jokaisesta päättyneestä haarasta. Näin ollen rajallisella välimuistilla tilavaatimus on $O(1)$ ja rajattomalla yläraja on $O(b^d)$.
 
 ## Puutteet ja parannusehdotukset
 
-Graafinen käyttöliittymä ja yleistä optimointia.
+Graafinen käyttöliittymä ja yleistä optimointia. Ohjelmointikielen vaihto käännettävään kieleen, koska Pythonin bittioperaattorit ovat auttamattoman hitaita.
 
 ## Lähteet
 
 [1] https://en.wikipedia.org/wiki/Negamax 8.4.2022
 [2] https://en.wikipedia.org/wiki/Bitboard 8.4.2022
+[3] https://en.wikipedia.org/wiki/MTD(f) 15.5.2022
