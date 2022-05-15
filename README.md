@@ -8,9 +8,9 @@ Asenna välttämättömät riippuvuudet
 $ poetry install [--no-dev]
 ```
 
-Aja ohjelma
+Aja ohjelma ja pelaa tietokonetta vastaan
 ```bash
-$ poetry run invoke start
+$ poetry run invoke start-against
 ```
 
 [Käyttöohje](/documents/Kayttoohje.md)
@@ -34,3 +34,5 @@ $ poetry run invoke start
 [Viikkoraportti 5](https://github.com/ossi-hy/ConnectFour/blob/main/documents/Viikkoraportti%205.md)
 
 [Viikkoraportti 6](https://github.com/ossi-hy/ConnectFour/blob/main/documents/Viikkoraportti%206.md)
+
+[Viikkoraportti 7](./documents/Viikkoraportti%207.md)
