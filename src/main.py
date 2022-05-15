@@ -35,12 +35,11 @@ def main() -> None:
     solver = Solver(board.w)
 
     if args.profile:
-        filename = "src/tests/test_depth_13.txt"
+        filename = "src/tests/test_depth_mid_13.txt"
         lines = []
         with open(filename, "r") as f:
             lines = f.readlines()
         for i, line in enumerate(lines):
-            # print(f"{i}/{len(lines)}")
             # Create empty board for each new sequence
             board = Board()
             # Each line will consist of sequence of moves and expected score for the first player

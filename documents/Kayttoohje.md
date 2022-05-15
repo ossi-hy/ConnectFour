@@ -20,6 +20,12 @@ Pelataksesi tietokonetta vastaan
 $ poetry run invoke start-against
 ```
 
+Jos haluat säätää algoritmin laskennan syvyyttä, joudut käynnistämään ohjelman manuaalisesti, esim:
+```bash
+$ poetry run python3 src/main.py --depth 13 [--against]
+```
+Oletussyvyys on 9 siirtoa.
+
 ## Pelaaminen
 
 Pelatessa ohjelma kysyy lukua 0 ja 6 välillä. Luku ilmaisee sarakkeen, mihin pala tiputetaan. Syöttämällä minkä tahansa kirjaimen tai painamalla `Ctrl+C` ohjelma pysähtyy.
@@ -44,6 +50,7 @@ $ poetry run invoke slow-test
 ```
 
 ## Profilointi
+Jos haluat tutkia ohjelman nopeutta esim. cProfile työkalulla, voi tällä pakottaa ohjelman ajamaan esilaskettuja asemia.
 ```bash
 $ poetry run invoke profile
 ```
