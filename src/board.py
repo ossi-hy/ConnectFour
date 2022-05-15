@@ -2,7 +2,16 @@ from __future__ import annotations
 from functools import lru_cache
 
 @lru_cache(maxsize=2**20)
-def four_in_a_row(state):
+def four_in_a_row(state: int) -> bool:
+    """Tests if there is four pieces in a row in the given board. 
+    Has a 1M item LRU cache for the results
+
+    Args:
+        state (int): bitboard representation of the board
+
+    Returns:
+        bool: True if there is 4 in a row, else returns False
+    """
     # Horizontal check
     test = state & state >> 7
     if test & test >> 14:
@@ -70,6 +79,11 @@ class Board:
         return ret_string
 
     def key(self) -> int:
+        """Creates unique key for any position to be used in the transposition table
+
+        Returns:
+            int: unique key for the board
+        """
         return (self.state[0] | self.state[1]) + self.state[self.player]
 
     def can_move(self, col: int) -> bool:
@@ -128,28 +142,6 @@ class Board:
         state = self.state[opp]
 
         return four_in_a_row(state)
-
-        # Horizontal check
-        test = state & state >> self.h + 1
-        if test & test >> 2 * (self.h + 1):
-            return True
-
-        # Vertical check
-        test = state & state >> 1
-        if test & test >> 2:
-            return True
-
-        # Diagonal check
-        test = state & state >> self.h
-        if test & test >> 2 * self.h:
-            return True
-
-        # Diagonal check
-        test = state & state >> self.h + 2
-        if test & test >> 2 * (self.h + 2):
-            return True
-
-        return False
 
     def score(self) -> int:
         """Returns the score for the current player.
